@@ -3,6 +3,25 @@
 #include <time.h>
 #include <string.h>
 
+int compare(const void *, const void *);
+int sorted(int *, int);
+void fill_sorted(int *, int);
+void fill_reverse(int *, int);
+void fill_rand(int *, int);
+void test(const char *, void (*fill_func)(int*, int), int);
+
+int main(){
+    srand(time(NULL));
+    int sizes[] = {100000, 500000, 1000000};
+    int num_sizes = sizeof(sizes)/sizeof(sizes[0]);
+    //тестування масивів різних розмірів та сортованості
+    for(int i=0; i<num_sizes; i++){
+        int n = sizes[i];
+        test("Sorted", fill_sorted, n);
+        test("Reversed", fill_reverse, n);
+        test("Random", fill_rand, n);
+    }
+}
 //порівняння для qsort
 int compare(const void *a, const void *b){
     return *(int*)a - *(int*)b;
@@ -42,16 +61,5 @@ void test(const char *desc, void (*fill_func)(int*, int), int n) {
     free(arr);
 }
 
-int main(){
-    srand(time(NULL));
-    int sizes[] = {100000, 500000, 1000000};
-    int num_sizes = sizeof(sizes)/sizeof(sizes[0]);
-    //тестування масивів різних розмірів та сортованості
-    for(int i=0; i<num_sizes; i++){
-        int n = sizes[i];
-        test("Sorted", fill_sorted, n);
-        test("Reversed", fill_reverse, n);
-        test("Random", fill_rand, n);
-    }
-}
+
 
